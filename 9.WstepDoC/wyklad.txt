@@ -1,0 +1,158 @@
+Różnice między C oraz C++:
+
+    Biblioteki:
+        W C wszystkie nazwy bibliotek kończą przez ".h"
+
+        Standardową biblioteką jest <stdio.h>
+
+    stringi:
+        do tekstu zamiast std::string należy korzystać z char *
+
+        definiując ciąg znaków musimy zdefiniować jego rozmiar (jeśli go przekroczymy nastąpi naruszenie ochrony pamięci)
+
+    Inne:
+        NIE MA REFERENCJI jak w c++, należy wszędzie przesyłać adres ręcznie
+
+        do liczb losowych należy wykorzystywać time.h, srand i rand
+
+        Do kompilacji należy korzystać z kompilatora do C (np gcc)
+
+        standardowym wejściem jest stdin, a wyjściem stdout
+
+
+Właściwości stdio.h:
+
+    funkcje:
+        printf("C\n")           <-- print format - do wypisu na konsolę 
+                                    
+                                    Ciąg znaków w argumencie zawiera 3 znaki
+                                    są to: 'C' '\n' oraz null
+
+                                    Może zawierać kilka argumentów - łańcuch formatujący i potem zmienne wypisywane
+                                    
+                                    w łańcuchu formatującym:
+                                        \n - nowa linia
+                                        \t - tabulacja
+                                        %% - znak '%'
+
+                                        %d - decimal, dziesiętna
+                                        %i - integer, zmienna całkowita
+                                        %o - zapis ósemkowy
+                                        %x - zapis szesnastkowy
+                                        %c - znak
+                                        %s - napis (string jako ciąg znaków)
+                                        %f - zmiennoprzecinkowa w zwykłym zapisie
+                                        %e - zapis inżynierski z wykładnikiem
+                                        %g - gizmo, czyli dla bliskich zeru zapis jak zwykłego %f, 
+                                             a dla innych przechodzi na zapis inżynierskich 
+                                        %p - adres zmiennej
+                                        
+                                        %lu - unsigned long, długa całkowita bez znaku
+                                        %li - long integer, długa całkowita ze znakiem
+                                        %hi - unsigned short, krótka całkowita ze znakiem  
+
+                                        %s      - wypis całego ciągu znaków
+                                        %25s    - wypis na 25 polach lub więcej jeśli się nie zmieści
+                                        %-25s   - wypis na 25 polach od lewej strony lub więcej jeśli się nie zmieści
+                                        %.5s    - wypis na DOKŁADNIE 5 polach (setprecision dla liczb)
+                                        %20.5s  - wypis na DOKŁADNIE 5 polach (lub setprecision dla liczb) w 20 polowej przestrzeni
+
+
+        getchar()               <-- zwraca jeden znak ze standardowego wejścia
+                                    Wartość zwracana jest typu int
+                                    w przypadku błędu lub końca wejścia zwracana jest wartość EOF
+
+
+        putchar(znak)           <-- wypisuje znak na standardowe wyjście
+
+
+        sprintf(tekst, "string formatujący %s", zmienna)    <-- zapsuje jak do zmiennej tekst typu char * (string)
+                                                                formatowanie wygląda jak w printf 
+
+
+        scanf("%d %d", &zmienna1, &zmienna2)                <-- czytanie w sposób sformatowany, formatowanie jak w printf
+
+                                                                Zwraca liczbę wczytanych danych
+                                                                
+                                                                W przypadku odczytania końca pliku zwraca EOF
+
+                                                                Znak wyłuskania adresu jest WAŻNY! - C nie obsługuje referencji w funkcji,
+                                                                    ALE nazwa tablicy jest adresem pierwszego elementu,
+                                                                    więc przy ciągu znaków nie trzeba (i nawet się nie powinno)
+
+
+    Obsługa plików: 
+        
+        Zapis do pliku:
+            FILE * plik = fopen("nazwa.pliku", "w");                    <-- "w" jako write, więc będzie zapis
+
+            if(plik)
+            {
+                fprintf(plik, "lancuch formatujący %d \n", zmienna);    <-- pierwszym argumentem jest adres zmiennej plikowej, można nawet podać stdout
+
+                fclose(plik);
+            }
+
+        Zapis blokami:
+            FILE * plik = fopen("nazwa.pliku", "w");
+
+            if(plik)
+            {
+                fputs(ciagZnakow, plik);        <-- Nie dopisuje \n na końcu
+                puts(ciagZnakow);               <-- Dopisuje \n na końcu
+
+                fclose(plik);
+            }
+
+        Odczyt z pliku:
+            FILE * plik = fopen("nazwa.pliku", "r");
+            if(plik)
+            {
+                while(fscanf(plik, "%d", &liczba) == 1)
+                    printf("%d", liczba);
+                
+                fclose(plik);
+            }
+
+        Odczyt blokami:
+            char bloki[liczba bkijiw][DLUGOSC_CIAGU_ZNAKOW]
+
+            FILE * plik = fopen("nazwa.pliku", "r");
+            if(plik)
+            {
+                int i = 0;
+                while (fgets(blokiCiagowZnakow[i++], DLUGOSC_CIAGU_ZNAKOW, plik));      <-- ciag znaków nie może być dłuższy niż drugi argument
+                
+                                                                                            można tak napisać, bo funkcja zwraca 0 dla braku wczytu 
+                                                                                                (co jest interpretowane jako false)
+                                                                                            
+                                                                                            Funkcja nie kontroluje czy pisze do swojej pamięci! <- możliwy wylot poza zakres tablicy
+
+
+
+                fclose(plik);
+            }
+        
+        Niesformatowany odczyt:
+            FILE * plik = fopen("nazwa.pliku", "rt")
+            if(plik)
+            {
+                int znak;
+                while(znak = getc(plik) != EOF)
+                    putc(znak, stdout);
+                
+                fclose(plik);
+            }
+
+
+
+        Cechy:
+            biblioteka standardowa definiuje strukturę FILE
+
+            stdout i stdin są typu FILE *
+
+
+Inne:
+    ctrl + d oznacza koniec strumienia - program rozumie to jako EOF
+
+    size_t maksymalny rozmiar zmiennej całkowitej
