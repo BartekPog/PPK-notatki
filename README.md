@@ -1,4 +1,4 @@
-# PPK notatki
+# Notatki z PPK
 
 Repozytorium zawiera notatki z pierwszego semestru **Podstaw Programowania Komputerów**.
 
@@ -12,8 +12,8 @@ Przeglądanie plików **.txt** nie należy do najprzyjemniejszych, gorąco polec
 
 #### Rozwój
 
-Repozytorium powinno być aktualizowane po każdym wykładzie. W przypadku zauważenia błędu, nieścisłości lub chęci ulepszenia materiału zachęcam do wykonania pull requesta albo opisanie możliwego ulepszenia w _issues_.
+Repozytorium powinno być aktualizowane po każdym wykładzie. W przypadku zauważenia błędu, nieścisłości lub chęci ulepszenia materiału zachęcam do wykonania pull requesta albo opisanie możliwego ulepszenia w **issues**.
 
 #### Inne materiały
 
-W ramach przedegzaminowego stresu zachęcam również do zapoznania się z zadaniami z poprzednich lat z przykładowymi rozwiązaniami, które znajdują się [tutaj](https://github.com/franpog859/helpStudent-egzPPK)
+W ramach przedegzaminowego stresu zachęcam również do zapoznania się z zadaniami z poprzednich lat z przykładowymi rozwiązaniami, które znajdują się [tutaj](https://github.com/franpog859/helpStudent-egzPPK).
