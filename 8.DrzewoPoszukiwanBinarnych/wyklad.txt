@@ -1,0 +1,248 @@
+Drzewo poszukiwań binarnych:
+
+    Cechy:
+        Węzeł ma trzy elementy:
+            wartość;
+            pLewy;
+            pPrawy;
+        
+        W zwykłym drzewie wszystkie wartości z lewej są mniejsze od wartości z prawej (dla każdego węzła)
+
+        Drzewo jest czadowe do szybkiego szukana wartości
+
+    
+    Funkcje:
+        void dodajDoDrzewaRekurencyjnie(wezel *& proot, const typ& wartosc)
+        {
+            if (not proot)
+                proot = new wezel {wartosc, nullptr, nullptr};
+            else
+            {
+                if(wartosc <proot->wartosc)
+                    dodajDoDrzewaRekurencyjnie(proot->pLewy, wartosc);
+                else
+                    dodajDoDrzewaRekurencyjnie(proot->pPrawy, wartosc);
+            }
+        }
+
+        void wypisz(wezel * proot)
+        {
+            if(proot)
+            {
+                wypisz(proot->pLewy);
+                std::cout<<std::proot->wartosc <<std::endl;
+                wypisz(proot->pPrawy);
+            }
+        }
+
+        void wypiszWciecia(wezel * proot, int wciecie)
+        {
+            if(proot)
+            {
+                wypisz(proot->pLewy, wciecie+1);
+                std::cout<<std::setw(wciecie*4)std::proot->wartosc <<std::endl;
+                wypisz(proot->pPrawy, wciecie+1);
+            }
+        }
+        
+        void usunDrzewo(wezel *& pRoot)
+        {
+            if(pRoot)
+            {
+                usunDrzewo(pRoot->pLewy);
+                usunDrzewo(pRoot->pPrawy);
+                delete pRoot;
+                pRoot = nullptr;
+            }
+        }
+
+        void dodajDoDrzewaIteracyjnie(wezel *& pRoot,const typ& wartosc)
+        {
+            if (not pRoot)
+                pRoot= new wezel {wartosc, nullptr,nullptr};
+            else
+            {
+                wezel * p = pRoot;
+                while(
+                    ((wartosc < p->wartosc) and (p->pLewy))
+                    or
+                    ((wartosc >= p->wartosc) and (p->pPrawy))
+                    )
+                {
+                    if(wartosc < p->wartosc)
+                        p=p->pLewy;
+                    else
+                        p=p->pPrawy;
+                }
+
+
+                /////               P wskazuje na element przed
+                if(wartosc < p->wartosc)
+                    p->pLewy = new wezel {wartosc, nullptr,nullptr};
+                else 
+                    p->pPrawy = new wezel {wartosc, nullptr,nullptr};
+            }
+        }
+
+        void dodajDoDrzewaIteracyjnieLepiej (wezel *& pRoot,const typ& wartosc)
+        {
+            if (not pRoot)
+                pRoot= new wezel {wartosc, nullptr,nullptr};
+
+            while (true)
+                
+                ///  [...] <- generalnie to to samo tylko że z breakami i mniej ifów
+        }
+
+        wezel * znajdzRekurencyjnie(wezel *pRoot, const typ & wartosc)
+        {
+            if (pRoot)
+            {
+                if (pRoot == wartosc)
+                    return pRoot;
+                
+                if(wartosc < pRoot->wartosc)
+                    return znajdzRekurencyjnie(pRoot-> pLewy, wartosc);
+                else
+                    return znajdzRekurencyjnie(pRoot->pPrawy, wartosc);
+            }
+            else 
+                return nullptr;
+        }
+
+        wezel * znajdzIteracyjnie(wezel * pRoot, const typ & wartosc)
+        {
+            while(pRoot)
+            {
+                if(pRoot -> wartosc == wartosc)
+                    return pRoot;
+                if(wartosc < pRoot->wartosc)
+                    pRoot = pRoot->pLewy;
+                else
+                    pRoot = pRoot->pPrawy;
+            }
+            return nullptr;
+
+        }
+
+        int policzWezly(wezel * pRoot)
+        {
+            if(pRoot)
+                return 1 + policzWezly(pRoot->pLewy) + policzWezly(pRoot->pPrawy);
+            return 0;
+        }
+
+        typ zSumujWartosci(wezel *pRoot)
+        {
+            if(pRoot)
+                return pRoot->wartosc + zSumujWartosci(pRoot->pLewy) + zSumujWartosci(pRoot->pPrawy);
+            return typ {};      ///Domyślna wartość dla typu
+        }
+
+        int policzLiscieWDrzewie(wezel * pRoot)
+        {
+            if(pRoot)
+            {
+                if(not pRoot->pLewy and not pRoot->pPrawy)
+                    return 1; // wezel nie ma potomkow, zatem jest liściem
+                else 
+                    return policzLiscieWDrzewie(pRoot->pLewy) + policzLiscieWDrzewie(pRoot->pPrawy);
+            }
+            else
+                return 0;
+        }
+
+        void usunLiscieZDrzewa(wezel *& pRoot)
+        {
+            if(pRoot)
+            {
+                if(not pRoot->pLewy and not pRoot->pPrawy)
+                {
+                    delete pRoot;
+                    pRoot = nullptr;
+                }
+                else 
+                {
+                    usunLiscieZDrzewa(pRoot->pLewy);
+                    usunLiscieZDrzewa(pRoot->pPrawy);
+                }    
+            }
+        }
+
+        int wysokoscDrzewa(wezel * pRoot)
+        {
+            return pRoot ? 1 + std::max(wysokoscDrzewa(pRoot->pLewy), wysokoscDrzewa(pRoot ->pPrawy)) : 0;
+        }
+
+        wezel * adresMinWDrzewie(wezel * pRoot)
+        {
+            if(pRoot)
+            {
+                while (pRoot->pLewy)
+                    pRoot = pRoot->pLewy;
+            }
+            return pRoot;
+        }
+
+        wezel * znajdzRodzica (wezel * pRoot, wezel * pPotomek)
+        {
+            if (not pRoot or not pPotomek or pRoot == pPotomek)
+                return nullptr;
+
+            if(pRoot->pLewy < pRoot->wartosc)
+            {
+                 if(pPotomek == pRoot->pLewy)
+                    return pRoot;
+                else
+                    return znajdzRodzica(pRoot->pLewy, pPotomek);
+            }   
+            else
+            {
+                if(pPotomek == pRoot->pPrawy)
+                    return pRoot;
+                else
+                    return znajdzRodzica(pRoot->pPrawy, pPotomek);
+            }   
+        }
+
+        void wypiszDrzewoWszerz (wezel * pRoot)
+        {
+            std::deque <wezel *> potomki;
+
+            if(pRoot)
+            {
+                potomki.push_front(pRoot);
+
+                while(not potomki.empty())
+                {
+                    auto p = potomki.back();            //odczytanie wartości
+                    potimki.pop_back();                 //usunięcie z końca
+
+                    std::cout << p->wartosc<<' ';       //wypisz wartość
+
+                    if(p->pLewy)
+                        potomki.push_front(p->pLewy);       
+                    if(p->pPrawy)
+                        potomki.push_front(p->pPrawy);
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+    Drzewo można 
+        przechodzić w głąb -> zwykle rekurencyjnie
+
+        w szerz -> piętrowo -> należy korzystać z kontenera deque lub innego FILO
+
+Inne:   
+    deque <typ> - wektor, tylko że łatwiej dodawać i ściągać z początku
+
+
+        /////////// zadanie domowe  -> adres min/maks rekurencyjnie  
+                                    -> znajdź rodzica iteracyjnie

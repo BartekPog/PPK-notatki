@@ -1,0 +1,149 @@
+STRUMIENIE PLIKOWE:
+    cechy:
+        można przekazać strumień (np plikowy) jako zmienną do funkcji (std::ostream& zmienna, nie trzeba ofstream) i np wpisywać funkcją
+
+        streama nie warto zerować, lepiej utworzyć nowy
+
+    stringstream:
+        biblioteka: sstream
+
+    metody:
+        ss.str()        <-  wypisanie stringa zapisanego w stringstreamie
+        ss.rdstate()    <-  zwraca błędy (011)
+        ss.good()
+        ss.bad()
+        ss.eof()        <-  błędy
+        ss.fail()       
+        ss.clear()      <-  resetuje flagi błędów
+
+    wczytywanie ze strumienia: (jak w pliku)
+        double liczba;
+        while(strumien >> liczba)
+        {
+            ///operacja na liczbach
+        }
+
+    inna reprezentacja stringa
+    można korzystać z niego jak z couta i cina
+
+
+    wczytywanie macierzy ze streama do vectora:
+        //s to strumień
+
+        std::vector<std::vector<int>> macierz
+        std::string linia;
+        int liczba;
+        while(getline(s, linia))
+        {
+            std::stringstream ss;
+            ss<<linia;
+
+            std::vector<int> wiersz_macierzy;
+            while(ss >> liczba)
+            {
+                //std::cout<<liczba;
+                wiersz_macierzy.push_back(liczba);
+            }
+            macierz.push_back(wiersz_macierzy);
+        }
+
+
+
+WSKAŹNIKI:
+    def:
+        zmienne przechowujące adresy innych zmiennych
+
+    deklaracja:
+        int * wskaznik;      <-  wskaźnik o nazwie "wskaznik" na adres zmiennej o typie int
+        wskaznik = & zmienna;
+        std::cout << *wskaznik;
+
+    cechy:
+        wskaźnik ma zawsze rozmiar słowa maszynowego (jest zwykłą liczbą całkowitą bez znaku)
+        
+        nullptr - bezpieczny, wyzerowany wskaźnik
+        
+        wskaźnik na stałą musi być typu const
+        
+    zapisy równoznacznie - wskaźnik na stałą
+        const int * constp1 = & stala;
+        int const * constp2 = & stala;
+
+    stały wskaźnik:
+        int * const nieZmiennyWskaźnik = & zmienna;
+
+    operatory:
+        *   <-  dostęp do tego co jest pod adresem
+        &   <-  wyłuskanie adresu
+
+
+    Tablice jako wskaźniki:
+        cechy:
+            zwiększenie wskaźnika o 1 to tak na prawdę zwiększenie jego wartości o jeden sizeof swojego typu        
+
+            zmienna tablicowa jest tak na prawdę adresem pierwszego elementu:
+                
+                tab[0] == *tab
+
+                & tab[i] == tab + i
+
+                tab[i] == *(tab + i)
+
+                tab[i] == i[tab]
+
+    Przekazywanie przez adres:
+        cechy: 
+            tablice przekazywane są przez adres (bo zmienna tablicowa to adres)
+
+        tablice wielowymiarowe:
+            tab[x][y] == *(*(tab + x) + y)
+
+
+    Wskaźniki do funkcji:
+        wskaźnik do funkcji: 
+            void (*wskFunkcji) (int [], const int);
+
+            pf = wypelnij
+            pf(tab, N);     //DZIAŁA!
+
+        
+        UWAGA: void *funkcja (int [], const int)
+            deklaracja funkcji zwracającej wskaźnik na void
+
+        
+        wektor wskaznikow:
+            std::vector< void (*) (int [], const int)> wpf = {wypelnij, kwadraty, negacja, odwroc};
+            //warto korzystać z typedefa
+
+
+typedef:
+    używane do tworzenia innych nazw typu
+
+    składnia:
+        typedef int calkowita;
+        calkowita zmienna = 4;
+
+        typedef int * wskaznikNaInt;
+        wskaznikNaInt wsk = & zmienna;
+
+        typedef int tablicaIntow [10];
+        tablicaIntow tab;
+
+        typedef void (*wskaznikNaFunkcje) (int [], const int);
+        wskaznikNaFunkcje pKwadraty = kwadraty;
+
+        wskaznikNaFunkcje tablica_wskaznikow [] = {wypelnij, odwroc, negacja, kwadraty};
+
+    
+
+
+
+inne:
+    standard języka zabrania zwracania tablicy z funkcji
+    ctrl + d -> koniec wejścia
+
+    w .h daje się wartości domyślne,
+        w odpowiadającym cpp już nie 
+
+    inna inicjacja stringa:
+        std::string napis {"test"};

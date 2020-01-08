@@ -1,0 +1,115 @@
+
+headery i kompilacja:
+    main.cpp jest kompilowany do pliku o, a funkcje do funkcje.o:
+        ale to tylko pliko pośrednie
+        potem są kompilowane do pliku wykonywalnego
+
+    plini nagłówkowe:
+        np:
+            funkcje.h
+            struktury.h
+
+        są dołączane do plików .cpp (includem)
+        można kompilować tylko zmienione
+
+
+
+string:
+    std::string - typ
+
+    działa zarówno .size() jak i .lenght()
+
+    pozwala na dostęp do elementu jak w tablicy
+
+
+    std::size_t  -  specjalny alias do stringa do iterowania po nim
+        jest większy od inta, na pewno nie wylecimy poza zakres    
+        nie przyjmuje wartości ujemnych!
+            będzie się wywalać głupi błąd nawet jako zmienna w pętli
+
+
+    fajne funkcje na znaki ze stringa (uwaga! w forEach jest jako kopia) 
+        islower
+        toupper
+        front
+        back
+        shrink_to_fit
+        find            <- zwraca indesk początku pierwszej instancji podanego stringa, jeśli nie zostanie znaleziony to zwraca std::string::npos
+                            można również podać indeks początku szukania w stringu
+        substr          <- (od elementu, indeks pierwszy za stringiem docelowym)
+        clear           <- usuwa znaki, ale nie zwalnia pamięci
+        empty           <- czy jest pusty
+
+
+
+    jak w vectorze działą capacity
+        capacity przy inicjacji jest taki jak size, potem jest dublowany
+
+
+struktury:
+    forma:
+        zwykła:
+            struct student
+            {
+                std::string imie, nazwisko; 	///<imię        <- komentarze do doxygena
+                				///<nazwisko
+		int indeks;              
+                double srednia;
+            };
+        
+        anonimowa:
+            struct
+            {
+                int liczba;
+                char znak;
+            } anonimowa;
+
+    definicja i inicjacja:
+        1: 
+            student iTakNieZda;
+            iTakNieZda.imie = "Baaaaart";
+
+        2:
+            student ktos = {"Ewa", "Matianek", 1244, 4.77};     <- wymaga prawidłowej kolejności ze struktury
+
+    cechy:
+        nie można bezpośrednio wypisywać zarówno struktury jak i jej instancjii
+
+        pamięć jest organizowana słowami maszynowymi, więc struktura może zajmować więcej pamięci niż jego składowe
+            dopełniana do pełnego słowa maszynowego
+        
+        można tworzyć tablice/wektor struktur
+    
+        można definiować strukturę wewnątrz funkcji lub nawet wewnątrz struktury
+
+        struktura może mieć w sobie inne struktury (samochód składający się z silnika, a silnik jest zdefiniowany w innym miejscu)
+            wtedy nadal można inicjalizować strukturę za pomocą {}
+
+
+union:
+    działa jak struktura, tylko wszystko jest zapisane w jednym miejscu (zajmuje tyle miejsca co największy typ wewnątrz)
+
+    tylko jedną zmienną można używać, bo wtedy reszta się zaśmieca
+
+    string i vector NIE MOGĄ BYĆ W UNII
+
+para:
+    forma: 
+        std::pair <char, double> para {"x", 14124.444}
+        a = para.first;
+        b = para.second;
+
+        lub
+
+        //std::pair<int, samochod>
+        auto ad_hoc = std::make_pair(23, wisła)     <- sam domyśla się typu, a w tym może strukturę
+
+    
+
+
+inne:
+    w c++ można zdefiniować kilka funkcji, które różnią się listą parametrów
+
+    w pliku h wyłącznie deklaracje, implementacje w pliku cpp
+        jeśli będzie wyłącznie w h, to kompilator zadziała, ale potem się wykrzaczy przy linkerze (main się skompiluje, ale funkcje już nie)
+    

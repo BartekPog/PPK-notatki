@@ -1,0 +1,227 @@
+STERTA i zmienne na stosie:
+    Cechy:
+        Każdy proces otrzymuje na uruchomieniu własny stos oraz STERTĘ
+        
+        Zmienne zapisywane są poprzez zaalokowanie jej w pamięci na stercie i dodanie na stos jej adresu
+
+    Sterta:
+        syntax:
+            Dla zmiennej int:
+                int *p = new int;           <- alokacja zmiennej na stercie
+                *p = 5;                     <- zgubienie tego pointera to nieodwracalna utrata zmiennej
+
+                ///operacje 
+
+                delete p;                   <- zwolnienie pamięci ze sterty, ale wskaźnik pozostaje
+
+                p = nullptr;                <- wyzerowanie wskaźnika (można p = 0)
+
+            Dla zmiennej tablicy:
+                int zmienna = 12;
+                int *ptab = new int [zmienna];
+
+                ///operacje
+                delete []ptab;              <- zwolnienie pamięci tablicy ze starty, ale wskaźnik pozostaje
+
+                ptab = nullptr;
+
+
+Lista jednokierunkowa:
+    struktura:
+        struct element
+        {
+            [typ] wartosc;
+            element * pNext;                <- nie będzie problemu z rozmiarem pamięci bo wskaźnik ma rozmiar słowa maszynowego
+        };
+
+    syntax:
+
+        Dodawanie na początek:
+            funkcja:
+                Wersja domyślna:
+                    void dodajNaPoczątek(element * &pHead, typ liczba)
+                    {
+                        if (pHead == nullptr)           <- lista pusta
+                        {
+                            element *pNowy = new element;
+                            (*pNowy).wartosc = liczba;
+                            
+                            //inny syntax:
+                            pNowy -> pNext = nullptr;
+
+                            pHead = pNowy;
+                        }
+                        else{                           <- lista niepusta
+                            element *pNowy = new element;
+                            pNowy -> wartosc = liczba;
+                            pNowy -> pNext = pHead;
+                            pHead = pNowy;
+                        }
+                    }
+                    
+                funkcja ulepszona 1:
+                    void dodajNaPoczątek(element * &pHead, typ liczba)
+                    {
+                        element *pNowy = new element;
+                        pNowy -> wartosc = liczba;
+                        pNowy -> pNext = pHead;
+                        pHead = pNowy;
+                    }
+
+                funkcja ulepszona 2:
+                    void dodajNaPoczątek(element * &pHead, typ liczba)
+                    {
+                        element *pNowy = new element {liczba, pHead};
+                        pHead = pNowy;
+                    }
+
+                funkcja ulepszona 3:
+                    void dodajNaPoczątek(element * &pHead, typ liczba)
+                    {
+                        pHead = new element {liczba, pHead};
+                    }
+
+
+            Main:
+                element * pGlowa = nullptr;
+
+                for (int i : {1,2,3,5,3,2,1,6,3,33,6,2,21})
+                    dodajNaPoczątek(pGlowa, i);
+    
+    Dodawanie na koniec listy:
+        void dodajNaKoniecIteracyjnie(element *& pHead, typ liczba)
+        {
+            if (not pHead)
+                pHead = new element {liczba, nullptr};
+            else 
+            {
+                auto p = pHead;
+                while(p->pNext)
+                    p = p->pNext;
+
+                //P wskazuje na ostatni element listy
+
+                p->pNext = new element {liczba, nullptr};               
+            }
+        }
+
+        void dodajNaKoniecRekurencyjnie(element *& pHead, typ liczba)
+        {
+            if (not pHead)
+                pHead = new element {liczba, nullptr};
+            else
+                dodajNaKoniecRekurencyjnie(pHead -> pNext, liczba);
+        }
+
+
+
+    Wypisywanie listy:
+        void wypiszOdPoczatkuIteracyjnie(element * pHead)
+        {
+            auto p = pHead;
+            while(p != nullptr)
+            {
+                std::cout<< p->wartosc << ' ';
+                p = p->pNext;
+            }
+        }    
+        void wypiszOdPoczatkuIteracyjnieTylkoTrochęFikusniej(element * pHead)
+        {
+            while(pHead)
+            {
+                std::cout<< pHead->wartosc << ' ';
+                pHead = pHead -> pNext;
+            }
+        }
+
+        void wypiszOdPoczatkuRekurencyjnie(element *pHead, std::ostream & ss)
+        {
+            if(pHead)
+            {
+                ss << pHead->wartosc << ' ';
+                wypiszOdPoczatkuRekurencyjnie(pHead, ss);
+            }
+        }
+
+        void wypiszOdKoncaRekurencyjnie(element *pHead, std::ostream & ss)
+        {
+            if(pHead)
+            {
+                wypiszOdKoncaRekurencyjnie(pHead, ss);
+                ss << pHead->wartosc << ' ';
+            }
+        }
+
+    Usuwanie listy:
+        void usunListeIteracyjnie(element *& pHead)
+        {
+            while(pHead)
+            {
+                auto p = pHead -> pNext;
+                delete pHead;
+                pHead = p;
+            }
+        }
+
+        void usunListeOdPoczatkuRekurencyjnie(element *& pHead)
+        {
+            if(pHead)
+            {
+                auto p = pHead->pNext;
+                delete pHead;
+                pHead = nullptr;
+                usunListeOdPoczatkuRekurencyjnie(p);
+            }
+        }
+
+        void usunListeOdKoncaRekurencyjnie(element *& pHead)
+        {
+            if(pHead)
+            {
+                usunListeOdKoncaRekurencyjnie(pHead->pNext);
+                delete pHead;
+                pHead = nullptr;
+            }
+        }
+    
+    inne:
+
+        element * znajdzElementRekurencyjnie(element * pHead, typ liczba)
+        {
+            if(pHead)
+            {
+                if(pHead->wartosc == liczba)
+                    return pHead;
+                else 
+                    return znajdzElement(pHead -> pNext, liczba);
+            }
+            else 
+                return nullptr;
+        }
+
+        element * znajdzElementIteracyjnie <-!!!!!!!!
+
+        element * znajdzPoprzednikIteracyjnie(element * pHead, element *pNastepnik)
+        {
+            if(not pHead or pNastepnik == pHead)
+                return nullptr;
+            
+            auto p = pHead;
+
+            while(p and p->pNext != pNastepnik)
+                p = p->pNext;
+            
+            return p;
+        }
+
+
+    
+Cechy:
+    Pierwszy element nazywany jest głową
+    
+        
+
+Inne:
+    Na otwarciu klamry wielkość stosu jest dokładnie taka sama jak na zamknięciu klamry
+
+    valgrind - biblioteka do kontroli wycieków pamięci

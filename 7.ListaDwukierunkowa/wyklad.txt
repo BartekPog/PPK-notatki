@@ -1,0 +1,50 @@
+Lista dwukierunkowa:
+    cechy:
+        jak jednokierunkowa, tylko w dwie strony (2 wskaźniki w każdym elemencie)
+
+    funkcje:
+
+        void dodajNaPoczatek(element *& pHead, element *& pTail, const typ* wartosc)
+        {
+            if (not pHead) //lista pusta
+                pHead = pTail = new element{wartosc, nullptr, nullptr};
+            else 
+            {
+                auto pNowy = new element {wartosc, nullptr, pHead};
+                pNowy->pNext->pPrev = pNowy;
+                pHead = pNowy;
+            }
+        }
+
+        void wypiszIteracyjnie(element *pHead)
+        {
+            while(pHead)
+            {
+                std::cout<<pHead->value<<" ";
+                pHead = pHead->pNext;
+            }
+        }
+
+        void wypiszOdKoncaRekurencyjnie(element *pTail)
+        {
+            if(pTail)
+            {
+                std::cout<<pTail->value<<" ";
+                wypiszOdKoncaRekurencyjnie(pTail->pPrev);
+            }
+        }
+
+        void usuniecieRekurencyjne(element *&pHead, element *&pTail)
+        {
+            if(pHead)
+            {
+                usuniecieRekurencyjne(pHead->pNext, pTail);
+                delete pHead;
+                pHead = pTail = nullptr;
+            }
+        }
+
+
+
+zadania domowe:
+    Wypis rekurencyjny od początku

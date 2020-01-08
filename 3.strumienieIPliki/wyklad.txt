@@ -1,0 +1,119 @@
+STRUMIENIE
+    def:    Mechanizm konwersji zmiennych na ciąg bajtów
+            Możliwa jest konwersja w drugą stronę (cin)
+    rodzaje:
+        tekstowe/sformatowane
+        binarne
+
+    standardowe outputy:
+        cout    -> przy przekierowaniu do pliku działa prawidłowo
+        clog    
+        cerr    -> do errorów, przy pzwykłym przekierowaniu wypisuje na output
+    
+    przekierowanie outputu do pliku:
+        " > plik" przekierowanie do pliku
+        " 2> blady "przekierowanie do błędów
+
+    standardowe inputy:
+        cin     -> jako input tekstowy, potem konwertowany
+
+    manipulatory
+        biblioteka: iomanip
+
+        przykłady manipulatorów:
+            setw            ->  ustawienie minimalnej szerokości pola
+                                działa tak samo dla zmiennoprzecinkowych
+
+            setprecision    ->  ustawienie ilości cyfr po przecinku
+                                pomija zera na końcu
+
+            left, right     ->  wyjustowanie przy setw do prawej lub lewej
+
+            internal        ->  znak do lewej, liczba do prawej
+
+            fixed           ->  wymuszenie zapisy nienaukowego
+                                z zerami na końcu
+
+            scientific      ->  wymuszenie zapisu naukowego na zmiennoprzecinkowych
+
+            showpos         ->  zawsze pokaż znak    
+
+            hexfloat        ->  wymusza postać heksadecymalną
+
+            uppercase       ->  wymuszenie w heksie wielkich liter
+
+            nouppercase     ->  wymuszenie w hekie małych liter
+
+            defaultfloat    ->  powrót do zwykłego wypisu floata
+
+            boolalpha       ->  wypis boola jako true albo false
+
+            cout.unsetf(std::ios_base::flaga)   ->  zdjęcie flagi
+
+            setfill         -> wypełnianie wolnych miejsc (przy setw) podanym znakiem
+
+
+        zapisywanie do pliku
+            biblioteka: fstream
+
+            składnia:
+                jeden:
+                    std::ofstream plik_wyjściowy;
+                    plik_wyjściowy.open("nazwa_pliku.txt");
+                    
+                    if(plik_wyjściowy)
+                    {
+                        //operacje na pliku
+
+                        plik_wyjściowy.close();
+                    }
+                dwa: 
+                    std::ofstream plik_wyjściowy ("nazwa_pliku.txt");
+
+                    if(plik_wyjściowy)
+                    {
+                        //operacje na pliku
+
+                        plik_wyjściowy.close();
+                    }
+                
+            własności:
+                otworzenie pliku jest równoznaczne z jego wyzerowaniem
+                    chyba że po nazwie pliku damy argument:      ,std::ios_base::app
+
+                                
+        odczyt z pliku:
+            składnia (ZŁA):
+                std::ifstream plik ("nazwa_pliku.txt");
+                if(plik)
+                {
+                    int liczba
+                    while (not plik.eof())
+                    {
+                        std::cout<<liczba;
+                    }
+                    plik.close()
+                }
+                
+            skladnia (LEPSZA, ale dzika)
+                std::ifstream plik ("nazwa_pliku.txt");
+                if(plik)
+                {
+                    int liczba;
+                    while(plik>>liczba)
+                    {
+                        std::cout<<liczba;
+                    }
+                    plik.close();
+                }
+
+
+
+Sidenotes:
+    W językach C oraz C++ input i output stream nie są odgórnie wpisane w język
+
+    Floaty nie są zapisywane dokładnie!!
+    wypisywanie dużych floatów jest wykonywane w zapisie naukowym
+
+    std::endl zmusza zwolnienie bufora i w pliku zapisanie do pliku
+

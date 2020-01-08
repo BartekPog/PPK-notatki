@@ -1,0 +1,41 @@
+Wskaźniki do niesformatowanych strumieni:
+
+    Funkcje:
+        plik.open(uri pliku)
+
+        plik.write(napisJakoTablicaCharów, strlen(napisJakoTablicaCharów))
+            Przykład:
+                const int LEN = 100;
+                char napis[LEN] = {};
+
+                plik.write(napis,LEN);
+                plik.close();
+            
+            Przykład z plikiem binarnym:
+                std::ofstream plik ("liczby", std::ios_base::binary);
+                if(plik)
+                {
+                    const int LEN = 5;
+                    int liczny [] = {-2,-1, 0, 1, 2};
+                    plik.write((char *) & liczby, LEN * sizeof(int));
+
+                    plik.close();
+                }
+
+        plik.get(czytanyZnak)
+
+        plik.read(czytanyNapis, maksRozmiarBufora)
+            Przykład z plikiem binarnym:
+                plik.seekg(0, plik.end);    //ustawienie znacznika na końcu pliku
+                int ile = tellg()           //pokaż gdzie jest znacznik
+                
+                plik.seekg(0, plik.beg);
+
+                const int LEN = 25;
+                int liczby [LEN];
+
+                plik.read( (char * ) &liczby, ile);
+
+                std::cout<<plik.gcount()    //sprawdza ile bitów przeczytaliśmy
+
+        plik.close()
