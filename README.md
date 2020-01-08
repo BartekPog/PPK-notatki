@@ -8,7 +8,13 @@ W kolejnych folderach znajdują się pliki `wyklad.txt` zawierające notatki. Po
 
 ## Sposób użycia
 
-Przeglądanie plików **.txt** nie należy do najprzyjemniejszych, gorąco polecam sklonować repozytorium `git clone https://github.com/BartekPog/PPK-notatki.git` i przeglądać pliki lokalnie w terminalu lub notatniku.
+Przeglądanie plików **.txt** nie należy do najprzyjemniejszych, gorąco polecam sklonować repozytorium:
+
+```bash
+git clone https://github.com/BartekPog/PPK-notatki.git
+```
+
+i przeglądać pliki lokalnie w terminalu lub notatniku.
 
 #### Rozwój
 
