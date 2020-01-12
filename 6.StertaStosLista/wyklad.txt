@@ -199,7 +199,21 @@ Lista jednokierunkowa:
                 return nullptr;
         }
 
-        element * znajdzElementIteracyjnie <-!!!!!!!!
+        element * znajdzElementIteracyjnie(element * pHead, typ liczba)
+        {
+            if(pHead)
+            {
+                while(pHead)
+                {
+                    if (pHead -> wartosc == liczba)
+                        return pHead;
+                    
+                    pHead = pHead -> pNext;
+                }
+            }
+            else
+                return nullptr;
+        }
 
         element * znajdzPoprzednikIteracyjnie(element * pHead, element *pNastepnik)
         {
