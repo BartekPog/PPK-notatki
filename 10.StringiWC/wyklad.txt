@@ -1,0 +1,60 @@
+STRINGI W C
+    struktura:
+        są tablicami charów zakończony ZEREM '\0'
+
+        na przykład w pamięci     A | L | A | \0
+
+    funkcje:
+        strlen(ciag_znakow)                 <-- zwraca długość ciągu znaków
+                                                BEZ końcowego zera
+        
+        strcopy(do_czego, z_czego)          <-- kopiowanie stringa
+
+
+
+    składnia:
+        char * zmienna = "inicjowana przy deklaracji";      <-- Nie wymaga podawania rozmiaru jeśli jest od razu inicjowana
+
+        char * inna[30];                                    <-- Nie jest inicjowana więc trzeba podać maksymalny rozmiaru
+
+    
+
+    Przykłady:
+        funkcja licząca długość ciągu znaków:
+
+            Wersja prostsza:
+                size_t dlugosc(const char * pNapis)                     <-- To nie wskaźnik jest constem, ale wartość na którą wskazuje!!
+                {
+                    size_t licznik = 0;
+
+                    while (*pNapis)
+                    {
+                        licznik++;
+                        pNapis++;
+                    }
+
+                    return licznik;
+                }
+
+            Wersja ładniejsza:
+                size_t dlugosc(const char * pNapis)
+                {
+                    size_t licznik = 0;
+                    
+                    while(*pNapis++)                                    <-- Działa bo ++ jest silnijeszym operatorem niż *
+                        licznik++;
+
+                    return licznik;
+                }
+
+        funkcja kopiująca:
+            void kopiuj(char * cel, const char * zrodlo)
+            {
+                while(*cel++ = *zrodlo++)
+                    ;
+            }
+
+        Łączenie stringów:
+            char * suma = malloc(sizeof(char)*(strlen(pierwszy) + strlen(drugi)) + 1);      <-- Potrzebny jest ten 1 na '\0'
+
+            i potem kopiowanie

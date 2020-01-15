@@ -13,11 +13,14 @@ Różnice między C oraz C++:
     Inne:
         NIE MA REFERENCJI jak w c++, należy wszędzie przesyłać adres ręcznie
 
+        w C NIE MA nullptr
+
         do liczb losowych należy wykorzystywać time.h, srand i rand
 
         Do kompilacji należy korzystać z kompilatora do C (np gcc)
 
         standardowym wejściem jest stdin, a wyjściem stdout
+
 
 
 Właściwości stdio.h:
@@ -129,7 +132,6 @@ Właściwości stdio.h:
                                                                                             Funkcja nie kontroluje czy pisze do swojej pamięci! <- możliwy wylot poza zakres tablicy
 
 
-
                 fclose(plik);
             }
         
@@ -145,14 +147,116 @@ Właściwości stdio.h:
             }
 
 
-
         Cechy:
             biblioteka standardowa definiuje strukturę FILE
 
             stdout i stdin są typu FILE *
 
 
+    Pliki binarne:
+
+        Zapis całkowitej:
+            FILE * plik = fopen("liczby-calkowite", "wb");           <-- Write-Binary
+            if(plik)
+            {
+                const int N = 5;
+                int liczby [5] = {7, 12, 0, -1, 5};
+
+                fwrite (liczby, sizeof(int), 5 plik);
+
+                fclose(plik);
+            }
+
+        Odczyt całkowitej:
+            FILE * plik = fopen("liczby-calkowite", "rb")           <-- Read-Binary
+            if(plik)
+            {
+                int liczby[5];
+
+                fread(liczby, sizeof(int), 5, plik);
+
+                // operacje na liczbach
+
+                fclose(plik);
+
+            }
+
+ALOKACJA PAMIĘCI
+    funkcje:
+        malloc(sizeof(int))                 <-- Alokacja pamięci 
+                                                NIE ZERUJE
+                                                zwraca pointer na zmienną
+        
+        free(pint)                          <-- Zwalnianie pamięci 
+                                                Również dla talbic
+
+        calloc(rozmiar, sizeof(int))        <-- Alokacja tablicy
+                                                ZERUJE TABLICĘ
+                                                zwraca zwraca void * 
+                                                nie zawsze występuje w kompilatorach C++ bo trzeba robić rzutowanie typu (int *)
+
+                                                można zastąpić: 
+                                                    malloc(rozmiar * sizeof(int))
+
+        realloc(wskaźnik, 10*sizeof(int))   <-- Realokacja tablicy
+                                                Zwraca nowy pointer na tablicę
+                                                Stara tablica zostaje zwolniona
+                                                Pozwala na zwiększenie rozmiaru tablicy
+                                                
+                                                Działa jak malloc dla:
+                                                    realloc(0, sizeof(int))
+                                                
+                                                Działa jak free:
+                                                    realloc(adres, 0)       <-- ale nie zawsze musi zwrócić null
+
+
+    PRZYKŁADY:
+        Alokacja zmiennej:
+            int *pint = malloc(sizeof(int));
+
+            // Działania 
+
+            free(pint);
+            pint = 0;
+
+
+        Alokacja tablicy:
+            int * tab calloc(rozmiar, sizeof(int));
+
+            // Działania
+
+            free(tab);  
+
+
+        Alokacja tablicy dwuwymiarowej:
+            int nWierszy = 6;
+            int nKolumn = 10;
+
+            int ** tab2d = calloc(nWierszy, sizeof (int *));
+
+            for(int w = 0; w < nWierszy; w++)
+                tab2d[w] = calloc(nKolumn, sizeof(int));
+            
+            for(int w = 0; w < nWierszy; w++)
+            {
+                for (int k=0; k < nKolumn; k++)
+                    tab2d[w][k] = w*20*k;
+            }
+
+            for(int w = 0; w < nWierszy; w++)
+            {
+                for (int k=0; k < nKolumn; k++)
+                    free(tab2d[w]);
+                free(tab2);
+            }            
+
 Inne:
     ctrl + d oznacza koniec strumienia - program rozumie to jako EOF
 
     size_t maksymalny rozmiar zmiennej całkowitej
+
+    W C++:
+        Alokajcja i zwalnianie dwuwymiarowej tabliczy następuje dwustopniowo
+        
+        Podobnie jak w wektorach:
+            std::vector< std::vector<int> > wek2d(nWierszy, std::vector<int> (nKolumn));
