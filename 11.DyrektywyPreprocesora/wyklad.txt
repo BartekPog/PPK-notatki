@@ -1,0 +1,93 @@
+PREPROCESOR i co się dzieje przed kompilacją    <-- zawsze jest na egzaminie!
+
+    Dyrektywy do preprocesora:
+
+        #include    <nazwa biblioteki>          <-- dołączanie bibliotek
+                                                    <> dla bibliotek standardowych
+                                                    "" dla bibliotek w folderze projektu
+        
+
+        #ifdef ZMIENNA_PREPROCESOROWA           <-- sprawdza czy ZMIENNA_PREPROCESOROWA została zdefiniowana
+                                                    wymaga #endif
+
+        #ifndef NAZWA_NP_BIBLIOTEKI             <-- jeśli nie zostało zdefiniowane,
+                                                    wymaga #endif
+                                                    wykorzystywana do jednokrotnego dodawania bibliotek
+
+        #elif                                   <-- else if
+
+        #endif                                  <-- koniec ifa
+
+        #define ZMIENNA <wartość>               <-- do definiowania zmiennych preprocesorowych, makrodefinicji 
+                                                    do jednokrotnego dołączania bibliotek
+                                                    wartość jest opcjonalna
+                                                    NIE MA NA KOŃCU ŚREDNIKA, 
+                                                    ANI "="
+
+        #pragma once                            <-- żeby biblioteka była dołączona raz
+                                                    pragma NIE JEST W STANDARDZIE
+                                                    LEPIEJ NIE UŻYWAĆ
+
+        #undef ZMIENNA_PREPROCESOROWA           <-- usuwa definicję ZMIENNA_PREPROCESOROWA
+                                                    oddefiniowanie zmiennej, która nie istnieje nie spowoduje błędu
+
+        #error "błąd kompolacji"                <-- Wymuszenie błędu kompilacji
+
+
+    Jednokrotne dołączanie bibliotek:
+        #ifndef FUNKCJE_H
+        #define FUNKCJE_H
+
+
+        ///kod pliku .h
+
+
+        #endif
+                        
+
+    Makrodefinicje:
+        przykłady:
+            #define FUNKCJE_H                       <-- do jednokrotnego dołączania bibliotek
+
+            #define MAX 5                           <-- wyszukuje w pliku MAX i zamienia je na 5 przed kompilacją
+
+            #define BEZWZGL(a) a > 0 ? a : -a       <-- makrodefinicja ze zmienną (parametrem)
+                                                        służy do pisania krótkich makro funkcji 
+
+            #define SUMA(a, b) a + b                <-- ZŁE
+                                                        w przypadku SUMA(a, b) * 3 wynikiem będzie a + b * 3
+                                                        należy dodać nawiasy
+
+            #define SUMA(a, b) (a + b)              <-- DOBRE
+                                                        działa
+
+            #define MNOZ(a,b) ((a) * (b))           <-- nawiasy są potrzebne
+                                                        bez nawiasów zepsuje się przy MNOZ(2+1, 3)
+
+            #define NAZWA(x) #x                     <-- wyłuskuje nazwę zmiennej
+
+            #define SCAL(x,y ) x ## y               <-- składa dwie wartości
+                                                        na przykład dla SCAL(1, 2) kompilator zobaczy 12
+
+            #define ZEWN_SCAL(x,y) SCAL(x,y)        <-- w sumie działa
+                                                        można w ten sposób składać ze sobą makra 
+
+            #define VARIABLE(t, a) t t##a           <-- tworzy zmienną 
+                                                        np dla VARIABLE(int, zmienna) da zmienną int o nazwie "intzmienna"
+
+            #define ZMIENNA_TYP(t,a) t SCAL(t,a)    <-- działa jak powyższe VARIABLE
+                                                        oczywiście wymaga zdefiniowania SCAL
+
+        Właściwości:
+            Raczej nie powinno się wpisywać do makrodefinicji operacji (np -- lub ++)
+            bo może to spowodować wielokrotne jej wykonanie (np przy BEZWZGL)
+
+            Można korzystać z __LINE__ do wyłuskwiania numeru linii w pliku
+            Przydaje się to na przykład przy debugowaniu
+
+
+
+
+    Ciekawostka:
+        Klamry i inne znaki z klawiatury można włączyć opcję -trigraphs
+        wtedy można np pisać ??< zamiast { oraz ??> zamiast } itp

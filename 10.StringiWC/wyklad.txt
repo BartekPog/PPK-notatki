@@ -1,4 +1,4 @@
-STRINGI W C
+    STRINGI W C
     struktura:
         są tablicami charów zakończony ZEREM '\0'
 
@@ -9,6 +9,20 @@ STRINGI W C
                                                 BEZ końcowego zera
         
         strcopy(do_czego, z_czego)          <-- kopiowanie stringa
+
+        strcat(docelowy, dodawany)          <-- dodwanie stringów 
+                                                pamięć nie jest realokowana, trzeba to zrobić samemu
+
+        free(tekst)                         <-- zwolnienie pamięci 
+                                                jak w zwykłych tablicach
+
+
+        strcmp(tekst1, tekst2)              <-- funkcja do porównywania stringów 
+                                                porównywanie się odbywa DO PIERWSZEGO ZERA
+                                                funkcja zwraca 0 dla 0 różnic, czyli stringi są równe
+
+
+        strstr(tekstWiększy, tekstSzukany)  <-- Wyszukująca kawałek napisu w innym napisie                                                
 
 
 
@@ -41,20 +55,58 @@ STRINGI W C
                 {
                     size_t licznik = 0;
                     
-                    while(*pNapis++)                                    <-- Działa bo ++ jest silnijeszym operatorem niż *
+                    while(*pNapis++)                        <-- Działa bo ++ jest silnijeszym operatorem niż *
                         licznik++;
 
                     return licznik;
                 }
 
         funkcja kopiująca:
-            void kopiuj(char * cel, const char * zrodlo)
+            void my_strlen(char * cel, const char * zrodlo)
             {
                 while(*cel++ = *zrodlo++)
-                    ;
+                    ;                                       <-- ten średnik ma być
             }
 
-        Łączenie stringów:
+        Łączenie stringów z użyciem funkcji bibliotecznych:
+        
             char * suma = malloc(sizeof(char)*(strlen(pierwszy) + strlen(drugi)) + 1);      <-- Potrzebny jest ten 1 na '\0'
+            
+            strcat(pierwszy, drugi);
 
-            i potem kopiowanie
+
+        Funkcja łącząca stringi:
+            void my_strcat(char * cel, const char * zrodlo)
+            {
+                while  (*cel)                               <-- znalezc zero w stringu docelowym
+                    cel++;
+
+                while(*cel++ = *zrodlo++)                   <-- skopiować do celu
+                    ;                                       <-- ten średnik może być w wyższej linijce,
+                                                                ale tak jest podobno ładnie
+            }
+
+        Przykład implementacji funkcji porównującej stringi
+            int my_strcmp(const char *s, const char *t)
+            {
+                while(*s && (*s == *t))
+                {
+                    s++;
+                    t++;
+                }
+
+                return (int)*s - (int)*t;
+            }
+
+Inne cechy:
+    W C porównanie stringów nie jest tak proste jak w C++
+
+        (tekst1 == tekst2)      <-- porównujemy wskaźniki, a nie wartości
+
+        należy wykorzystywać funkcję strcmp(tekst1, tekst2)
+
+
+
+
+Zadanie domowe:
+    Zrobić szyfrator do szyfru cezara w C
