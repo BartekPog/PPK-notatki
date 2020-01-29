@@ -1,0 +1,37 @@
+Rzeczy które są w C, ale nie ma w C++:
+    W C nie trzeba pisać typu jeśli funkcja zwraca int 
+        Na przykład <main()> zamiast <int main()>
+        Tak samo ze zmiennymi jeśli damy const (żeby było wiadomo, ze to przypisanie)
+
+    można definiować struktury jako typ zwracany funkcji
+
+    W C sizeof('a') jest 4-bajtowy (bez sensu)
+
+    Korzytstanie ze struktur wymaga ZAWSZE słówka struct (oraz ENUM)
+        W C++ struktura jest traktowana jak normalny typ
+
+        W C trzeba pisac <struct [nazwaStruktury] [nazwaTworzonejZmiennej]>
+
+    Inne korzystanie z enumów
+        W C++ nie można przypisać wartości liczbowej do zmiennej typu enum
+
+        W C można przypisać liczbę do zmiennej enum
+
+    W C można robić kryptorzutowanie
+        int * p = malloc (sizeof(int) * 10)         <-- kryptorzutujemy void * na int *
+
+    W C można tworzyć struktury i typedefy o tej samej nazwie 
+        Wynika to z tego, że przy strukturach i tak trzeba jawnie pisać struct
+
+    W C można zrobić char napis[10] = "ASDADSASDADASDASDASDASDSADASDADASDASD";
+        Ale to jest głupie
+        Bo string nie będzie miał na konću '\0'
+        i np funkcja printf zawiesi program 
+
+Kompilacja: 
+    Można kompilować funkcje w różnych językach i łączyć linkerem skompilowane pliki .o
+        Dla plików kompilowanych w C++ wykorzystujących funkcje C lub Fortranowe trzeba dodać extern "C" do pliku .h
+
+
+Inne:
+    Można podejrzeć zdefiniowane nazwy z pliku .o za pomocą bashowej instrukcji "nm"
