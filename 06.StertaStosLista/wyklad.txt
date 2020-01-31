@@ -210,6 +210,7 @@ Lista jednokierunkowa:
                     
                     pHead = pHead -> pNext;
                 }
+                return nullptr;
             }
             else
                 return nullptr;
