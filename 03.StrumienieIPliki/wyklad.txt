@@ -90,6 +90,7 @@ STRUMIENIE
                     int liczba
                     while (not plik.eof())
                     {
+                        plik>>liczba;
                         std::cout<<liczba;
                     }
                     plik.close()
