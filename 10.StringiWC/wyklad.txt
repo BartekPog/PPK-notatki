@@ -62,7 +62,7 @@
                 }
 
         funkcja kopiująca:
-            void my_strlen(char * cel, const char * zrodlo)
+            void my_strcopy(char * cel, const char * zrodlo)
             {
                 while(*cel++ = *zrodlo++)
                     ;                                       <-- ten średnik ma być
@@ -72,7 +72,8 @@
         
             char * suma = malloc(sizeof(char)*(strlen(pierwszy) + strlen(drugi)) + 1);      <-- Potrzebny jest ten 1 na '\0'
             
-            strcat(pierwszy, drugi);
+            strcopy(suma, pierwszy);
+            strcat(suma, drugi);
 
 
         Funkcja łącząca stringi:
@@ -110,3 +111,9 @@ Inne cechy:
 
 Zadanie domowe:
     Zrobić szyfrator do szyfru cezara w C
+
+    void szyfrujBezZapetleniaBoMiSięNieChce(char * t, int offset)
+    {
+        while(*t)
+            t += offset;
+    }

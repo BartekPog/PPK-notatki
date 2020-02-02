@@ -162,7 +162,7 @@ Właściwości stdio.h:
                 const int N = 5;
                 int liczby [5] = {7, 12, 0, -1, 5};
 
-                fwrite (liczby, sizeof(int), 5 plik);
+                fwrite (liczby, sizeof(int), 5, plik);
 
                 fclose(plik);
             }

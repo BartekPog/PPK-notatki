@@ -189,7 +189,7 @@ Drzewo poszukiwań binarnych:
             if (not pRoot or not pPotomek or pRoot == pPotomek)
                 return nullptr;
 
-            if(pRoot->pLewy < pRoot->wartosc)
+            if(pPotomek->wartosc < pRoot->wartosc)
             {
                  if(pPotomek == pRoot->pLewy)
                     return pRoot;
@@ -216,7 +216,7 @@ Drzewo poszukiwań binarnych:
                 while(not potomki.empty())
                 {
                     auto p = potomki.back();            //odczytanie wartości
-                    potimki.pop_back();                 //usunięcie z końca
+                    potomki.pop_back();                 //usunięcie z końca
 
                     std::cout << p->wartosc<<' ';       //wypisz wartość
 
@@ -246,3 +246,47 @@ Inne:
 
         /////////// zadanie domowe  -> adres min/maks rekurencyjnie  
                                     -> znajdź rodzica iteracyjnie
+
+
+        wezel * znajdzAdresMinRek(wezel * pRoot)
+        {
+            if(not pRoot or not pRoot->pLeft)
+                return pRoot;
+
+            return znajdzAdresMinRek(pRoot->pLeft);
+        }
+
+        wezel * znajdzAdresMaxRek (wezel * pRoot)
+        {
+            if(not pRoot or not pRoot -> pRight)
+                return pRoot;
+
+            return znajdzAdresMaxRek(pRoot -> pRight);
+        }
+
+        wezel * znajdzRodzicaIteracyjnie(wezel * pRoot, wezel * pPotomek)
+        {
+            if (not pRoot or not pPotomek or pRoot == pPotomek)
+                return nullptr;
+            
+            while(pRoot)
+            {
+                if(pPotomek->wartosc < pRoot->wartosc)
+                {
+                    if(pPotomek == pRoot->pLeft)
+                        return pRoot;
+                    else
+                        pRoot = pRoot->pLeft;
+
+                }
+                else
+                {
+                    if(pPotomek == pRoot->pRight)
+                        return pRoot;
+                    else 
+                        pRoot = pRoot->pRight;
+                }
+            }
+
+            return nullptr;
+        }

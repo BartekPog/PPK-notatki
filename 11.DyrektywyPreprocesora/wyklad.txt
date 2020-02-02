@@ -17,6 +17,8 @@ PREPROCESOR i co się dzieje przed kompilacją    <-- zawsze jest na egzaminie!
                                                     wymaga #endif
                                                     wykorzystywana do jednokrotnego dodawania bibliotek
 
+        #if ZMIENNA > 5                         <-- if, tylko preprocesorowy
+
         #elif                                   <-- else if
 
         #else                                   <-- else
@@ -130,4 +132,3 @@ PREPROCESOR i co się dzieje przed kompilacją    <-- zawsze jest na egzaminie!
         Klamry i inne znaki z klawiatury można włączyć opcję -trigraphs
         wtedy można np pisać ??< zamiast { oraz ??> zamiast } itp
 
-        
