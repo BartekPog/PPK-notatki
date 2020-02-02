@@ -146,4 +146,4 @@ inne:
         w odpowiadającym cpp już nie 
 
     inna inicjacja stringa:
-        std::string napis {"test"};
+        std::string napis ("test");
