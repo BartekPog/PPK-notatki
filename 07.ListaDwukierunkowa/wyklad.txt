@@ -4,7 +4,7 @@ Lista dwukierunkowa:
 
     funkcje:
 
-        void dodajNaPoczatek(element *& pHead, element *& pTail, const typ* wartosc)
+        void dodajNaPoczatek(element *& pHead, element *& pTail, const typ wartosc)
         {
             if (not pHead) //lista pusta
                 pHead = pTail = new element{wartosc, nullptr, nullptr};
@@ -48,3 +48,21 @@ Lista dwukierunkowa:
 
 zadania domowe:
     Wypis rekurencyjny od początku
+
+    void wypisRekurencyjnieOdPoczatku(element * pHead, element * pTail)
+    {
+        if (pHead)
+        {
+            std::cout<<pHead->value<<" ";
+            wypisRekurencyjnieOdPoczatku(pHead->pNext, pTail);
+        }
+    }
+
+    void wypisRekurencyjnieOdPoczatkuFikuśniej(element * pHead, element * pTail)
+    {
+        if(pTail)
+        {
+            wypisRekurencyjnieOdPoczatkuFikuśniej(pHead. pTail->pPrev);
+            std::cout<<pTail->value<<" ";
+        }
+    }
